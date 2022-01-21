@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './questions.dart';
-import './answers.dart';
+import './quiz.dart';
+import './result.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,35 +14,39 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final String title = "First App";
   var _i = 0;
-  var a = [
+  var _totalScore = 0;
+  final _a = const [
     {
       'question': 'What\'s your favourite colour?',
       'options': [
-        'Blue',
-        'Black',
-        'Green',
+        {'text': 'Blue', 'score': 10},
+        {'text': 'Black', 'score': 30},
+        {'text': 'Green', 'score': 5},
       ]
     },
     {
       'question': 'What\'s your favourite animal?',
       'options': [
-        'Lion',
-        'Cheetah',
-        'Tiger',
+        {'text': 'Lion', 'score': 5},
+        {'text': 'Cheetah', 'score': 10},
+        {'text': 'Tiger', 'score': 30},
       ]
     },
   ];
-  void onPressed() {
-    var res = 0;
-    if (_i == 0)
-      res = 1;
-    else
-      res = 0;
+  void _onPressed(int score) {
+    _totalScore += score;
     setState(() {
-      _i = res;
+      _i = _i + 1;
     });
-    print(a[res]);
+  }
+
+  void _resetQuiz() {
+    setState(() {
+      _i = 0;
+      _totalScore = 0;
+    });
   }
 
   @override
@@ -50,16 +54,11 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: Text('TrickyM'),
+        title: Text(title),
       ),
-      body: Column(
-        children: [
-          Questions(a[_i]['question'].toString()),
-          ...(a[_i]['options'] as List<String>).map((answer) {
-            return (Answers(onPressed, answer));
-          }).toList()
-        ],
-      ),
+      body: _i < _a.length
+          ? Quiz(_onPressed, _a, _i)
+          : Result(_totalScore, _resetQuiz),
     ));
   }
 }
