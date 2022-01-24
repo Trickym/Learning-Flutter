@@ -11,7 +11,7 @@ class Result extends StatelessWidget {
     } else if (totalScore <= 20) {
       res = 'Satisfactory!';
     } else {
-      res = 'Bhag Jaa!';
+      res = 'Bad!';
     }
     return res;
   }
@@ -27,10 +27,10 @@ class Result extends StatelessWidget {
               style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-            FlatButton(
+            ElevatedButton(
                 onPressed: resetQuiz,
                 child: Text(
-                  'Play Again!',
+                  'Play Again !!!!',
                   style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
                 ))
           ],
