@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   loadData() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     final productList =
         await rootBundle.loadString("assets/files/products.json");
     final decodedData = jsonDecode(productList);
@@ -43,14 +43,45 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
+        // ignore: unnecessary_null_comparison
         child: ProductModel.products != null && ProductModel.products.isNotEmpty
-            ? ListView.builder(
+            ? GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16),
                 itemCount: ProductModel.products.length,
-                itemBuilder: (context, index) => ProductWidget(
-                  item: ProductModel.products[index],
-                ),
+                itemBuilder: (context, index) {
+                  final item = ProductModel.products[index];
+                  return Card(
+                      clipBehavior: Clip.antiAlias,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      child: GridTile(
+                          header: Container(
+                            child: Text(
+                              item.name,
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            padding: const EdgeInsets.all(12.0),
+                            decoration: const BoxDecoration(
+                              color: Colors.deepPurple,
+                            ),
+                          ),
+                          footer: Container(
+                              padding: const EdgeInsets.all(12.0),
+                              decoration:
+                                  const BoxDecoration(color: Colors.deepPurple),
+                              child: Text(
+                                "\$${item.price.toString()}",
+                                style: const TextStyle(color: Colors.white),
+                              )),
+                          child: Image.network(item.image)));
+                },
               )
-            : Center(
+            : const Center(
                 child: CircularProgressIndicator(),
               ),
       ),
@@ -58,3 +89,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+
+
+//For List View
+// ListView.builder(
+//                 itemCount: ProductModel.products.length,
+//                 itemBuilder: (context, index) => ProductWidget(
+//                   item: ProductModel.products[index],
+//                 ),
+//               )
