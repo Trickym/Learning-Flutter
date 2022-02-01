@@ -11,6 +11,6 @@ class AppTheme {
             // ignore: deprecated_member_use
             textTheme: Theme.of(context).textTheme),
         primarySwatch: Colors.deepPurple,
-        fontFamily: GoogleFonts.lato().fontFamily,
+        fontFamily: GoogleFonts.poppins().fontFamily,
       );
 }
